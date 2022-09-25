@@ -24,13 +24,13 @@
       "vite/client",
       "vite-plugin-pages/client",
       "vite-plugin-vue-layouts/client",
-      "vitest",   
-      "vue/ref-macros",    
-      "vite-plugin-vue-component-preview/client",   
+      "vitest",
+      "vue/ref-macros",
+      "vite-plugin-vue-component-preview/client"
     ],
     "paths": {
       "~/*": ["src/*"]
     }
   },
-  "exclude": ["node_modules" , "app" , "dist" , "scripts" , "hardhat.config.js" ]
+  "exclude": ["node_modules", "app", "dist", "scripts", "hardhat.config.js"]
 }
