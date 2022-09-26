@@ -21,6 +21,7 @@ specifiers:
   dotenv: ^16.0.2
   eslint: ^8.21.0
   eslint-plugin-cypress: ^2.12.1
+  esm: ^3.2.25
   ethereum-waffle: ^3.4.4
   ethers: ^5.7.1
   hardhat: ^2.11.2
@@ -86,6 +87,7 @@ devDependencies:
   cypress: 10.4.0
   eslint: 8.21.0
   eslint-plugin-cypress: 2.12.1_eslint@8.21.0
+  esm: 3.2.25
   https-localhost: 4.7.1
   markdown-it-link-attributes: 4.0.0
   markdown-it-shiki: 0.5.1
@@ -6560,6 +6562,11 @@ packages:
       v8-compile-cache: 2.3.0
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /esm/3.2.25:
+    resolution: {integrity: sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==}
+    engines: {node: '>=6'}
     dev: true
 
   /espree/6.2.1:
