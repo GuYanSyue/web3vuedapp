@@ -1,56 +1,52 @@
 <script setup lang="ts">
-const user = useUserStore()
-const name = $ref(user.savedName)
+import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
+import crypto_, { useUserStore } from '../store/user'
 
-const router = useRouter()
-const go = () => {
-  if (name)
-    router.push(`/hi/${encodeURIComponent(name)}`)
-}
+// 引用crypto.vue的const宣告變數
+// import crypto_ from '../store/user'
 
-const { t } = useI18n()
+const defineStore = useUserStore()
+const { deposit, cost, onSign, connectWallet } = useUserStore()
+const { account } = storeToRefs(defineStore)
+
+const AmountTWD = ref(0)
 </script>
 
 <template>
-  <div>
-    <div text-4xl>
-      <div i-carbon-campsite inline-block />
-    </div>
-    <p>
-      <a rel="noreferrer" href="https://github.com/antfu/vitesse" target="_blank">
-        Vitesse
-      </a>
-    </p>
-    <p>
-      <em text-sm opacity-75>{{ t('intro.desc') }}</em>
-    </p>
+  <div class="flex flex-col items-center">
+    <h1 class="text-2xl m-4">
+      Get NFT !
+    </h1>
+    <button v-if="!account" class="bg-amber-600 rounded p-4" @click="connectWallet">
+      Connect Wallet
+    </button>
 
-    <div py-4 />
+    <div v-if="account" class="border shadow w-4/12 p-4 mt-10">
+      <button @click="onSign">
+        Sign with Metamask
+      </button>
+      <P>Message : HelloWorld</P>
+      <div style="word-break: break-all;">
+        <p class="m-4">
+          Signature : {{ crypto_.Sig }}
+        </p>
+      </div>
 
-    <input
-      id="input"
-      v-model="name"
-      :placeholder="t('intro.whats-your-name')"
-      :aria-label="t('intro.whats-your-name')"
-      type="text"
-      autocomplete="false"
-      p="x4 y2"
-      w="250px"
-      text="center"
-      bg="transparent"
-      border="~ rounded gray-200 dark:gray-700"
-      outline="none active:none"
-      @keydown.enter="go"
-    >
-    <label class="hidden" for="input">{{ t('intro.whats-your-name') }}</label>
-
-    <div>
-      <button
-        btn m-3 text-sm
-        :disabled="!name"
-        @click="go"
+      <input
+        v-model="AmountTWD"
+        :style="{ width: '100px' }"
+        name="AmountInfo"
+        class="py-4 px-4 shadow border rounded"
+        maxlength="15"
       >
-        {{ t('button.go') }}
+
+      <button class="bg-cyan-500 rounded p-4 mt-10" @click="cost(AmountTWD)">
+        cost
+      </button>
+
+      <button @click="deposit()">
+        deposit
       </button>
     </div>
   </div>
