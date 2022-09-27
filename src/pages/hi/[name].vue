@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useUserStore } from '~/store/user'
+
 const props = defineProps<{ name: string }>()
 const router = useRouter()
 const user = useUserStore()
@@ -11,20 +13,20 @@ watchEffect(() => {
 
 <template>
   <div>
-    <div text-4xl>
-      <div i-carbon-pedestrian inline-block />
-    </div>
+    <p class="text-4xl">
+      <carbon-pedestrian class="inline-block" />
+    </p>
     <p>
       {{ t('intro.hi', { name: props.name }) }}
     </p>
 
-    <p text-sm opacity-75>
+    <p class="text-sm opacity-50">
       <em>{{ t('intro.dynamic-route') }}</em>
     </p>
 
     <template v-if="user.otherNames.length">
-      <p text-sm mt-4>
-        <span opacity-75>{{ t('intro.aka') }}:</span>
+      <p class="text-sm mt-4">
+        <span class="opacity-75">{{ t('intro.aka') }}:</span>
         <ul>
           <li v-for="otherName in user.otherNames" :key="otherName">
             <router-link :to="`/hi/${otherName}`" replace>
@@ -37,7 +39,7 @@ watchEffect(() => {
 
     <div>
       <button
-        btn m="3 t6" text-sm
+        class="btn m-3 text-sm mt-6"
         @click="router.back()"
       >
         {{ t('button.back') }}
@@ -45,3 +47,4 @@ watchEffect(() => {
     </div>
   </div>
 </template>
+
