@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
-import crypto_, { useUserStore } from '../store/user'
+import crypto_, { useCryptoStore } from '../store/crypto'
 
 // 引用crypto.vue的const宣告變數
 // import crypto_ from '../store/user'
 
-const defineStore = useUserStore()
-const { deposit, cost, onSign, connectWallet } = useUserStore()
+const defineStore = useCryptoStore()
+const { deposit, cost, onSign, connectWallet } = useCryptoStore()
 const { account } = storeToRefs(defineStore)
 
 const AmountTWD = ref(0)
