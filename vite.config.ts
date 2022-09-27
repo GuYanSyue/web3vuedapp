@@ -133,6 +133,8 @@ export default defineConfig({
     Inspect(),
   ],
 
+  base: '/web3vuedapp/',
+
   // https://github.com/vitest-dev/vitest
   test: {
     include: ['test/**/*.test.ts'],

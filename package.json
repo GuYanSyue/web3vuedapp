@@ -13,7 +13,8 @@
     "test:e2e": "cypress open",
     "test:unit": "vitest",
     "typecheck": "vue-tsc --noEmit",
-    "up": "taze major -I"
+    "up": "taze major -I",
+    "deploy": "npm run build && node ./deploy/ghpages.js"
   },
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.1.1",
@@ -49,6 +50,7 @@
     "eslint": "^8.21.0",
     "eslint-plugin-cypress": "^2.12.1",
     "esm": "^3.2.25",
+    "gh-pages": "^4.0.0",
     "https-localhost": "^4.7.1",
     "markdown-it-link-attributes": "^4.0.0",
     "markdown-it-shiki": "^0.5.1",
