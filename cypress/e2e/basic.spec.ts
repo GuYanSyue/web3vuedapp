@@ -35,3 +35,11 @@ context('Basic', () => {
   })
 })
 export {}
+function context(arg0: string, arg1: () => void) {
+  throw new Error("Function not implemented.")
+}
+
+function beforeEach(arg0: () => void) {
+  throw new Error("Function not implemented.")
+}
+
