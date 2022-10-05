@@ -4,8 +4,8 @@ import { ethers } from 'ethers'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
 import { ref } from 'vue'
-import contractABI from '../artifacts/contracts/SimplePay.sol/SimplePay.json'
-const contractAddress = '0xe6a18A16FB0dad8f7516fb9848879C4E2036a178'
+import contractABI from '../artifacts/contracts/SimplePayAndNFT.sol/SimplePayAndNFT.json'
+const contractAddress = '0xfA5a434D05dC8940A806601434c8780B6fd46FcF'
 
 const Sig = ref()
 // 預設匯出 !重要

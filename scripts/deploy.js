@@ -8,7 +8,7 @@ async function main() {
     deployer.address,
   )
 
-  const SimplePay = await hre.ethers.getContractFactory('SimplePay')
+  const SimplePay = await hre.ethers.getContractFactory('SimplePayAndNFT')
   const spay = await SimplePay.deploy()
 
   await spay.deployed()
