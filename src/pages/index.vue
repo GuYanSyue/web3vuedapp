@@ -7,10 +7,11 @@ import crypto_, { useCryptoStore } from '../store/crypto'
 // import crypto_ from '../store/user'
 
 const defineStore = useCryptoStore()
-const { deposit, cost, onSign, connectWallet } = useCryptoStore()
-const { account } = storeToRefs(defineStore)
+const { mint, deposit, itemcost, onSign, connectWallet } = useCryptoStore()
+const { account, showTWDtoGwei, TWDtoEth, showdepositTxn } = storeToRefs(defineStore)
 
-const AmountTWD = ref(0)
+const getAmount = ref(0)
+const amountInput = ref(null as any)
 </script>
 
 <template>
@@ -34,19 +35,37 @@ const AmountTWD = ref(0)
       </div>
 
       <input
-        v-model="AmountTWD"
+        v-model="getAmount"
         :style="{ width: '100px' }"
         name="AmountInfo"
         class="py-4 px-4 shadow border rounded"
         maxlength="15"
       >
 
-      <button class="bg-cyan-500 rounded p-4 mt-10" @click="cost(AmountTWD)">
+      <button class="bg-cyan-500 rounded p-4 mt-10" @click="itemcost(getAmount)">
         cost
       </button>
 
-      <button @click="deposit()">
+      <p>Show TWD to Gwei: {{ showTWDtoGwei }}</p>
+
+      <button class="bg-cyan-400 rounded p-4 mt-10" @click="deposit()">
         deposit
+      </button>
+
+      <p>Show TWD to Eth: {{ TWDtoEth }}</p>
+      <p>{{ showdepositTxn }}</p>
+
+      <br><span>How many you want to mint ? &emsp;</span>
+      <input
+        v-model.number="amountInput"
+        type="number"
+        :style="{ width: '100px' }"
+        name="NFTBookInfo"
+        class="py-4 px-4 shadow border rounded"
+        maxlength="2"
+      >
+      <button class="bg-cyan-500 rounded p-4 mt-10" @click="mint(account, amountInput)">
+        Mint
       </button>
     </div>
   </div>

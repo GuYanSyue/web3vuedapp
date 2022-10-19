@@ -12,39 +12,37 @@ contract SimplePayAndNFT is ERC721Enumerable, Ownable{
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIdCounter;
     
-    string public baseURI = "ipfs://QmeiiJoud97FgBnmrjiaHk6PrBoiHDkaWPFfoonG3Hw5TU"; // 這一行是 NFT 該去哪裡找你的 MetaData
+    string public baseURI = "ipfs://QmTsJxtn7ENGWtd678RdzYtibd2TkwVZBHKs8ytPGxLM4r"; // 這一行是 NFT 該去哪裡找你的 MetaData
     bool public paused = false; // 可以拿來暫停或者開啟 Mint
-    uint256 public cost = 0.0001 ether; // Mint 價格
-    uint256 public maxSupply = 5; // 只有五個 NFT
-    uint256 public maxMintAmount = 1; // 一次最多只能 Mint 一個
+    uint256 public cost = 0.000001 ether; // Mint 價格
+    uint256 public maxSupply = 16; // 只有 個 NFT
+    uint256 public maxMintAmount = 3; // 一次最多只能 Mint 一個
     uint public price;
     address public seller = 0xc98E9c69119eb0B764B0d5DCbC1532De8bfC2D4f;
     address public buyer;
     
-    constructor() ERC721( "ShopCoinT2", "SCT2") payable {
+    constructor() ERC721("ShopCoinT2", "SCT2") payable{
+        
 	}
 
-
-    // 提供給大家 Mint 的 Function(另外加上 payable 代表這個 function 可以接收乙太幣)
     function mint(uint256 _mintAmount) public payable {
+        //uint256 supply = totalSupply();
         require(paused != true, "Sale must be active"); // 合約必須不是暫停
-		require(_mintAmount > 0); // 每次必須鑄造超過 0 個
-        //require(totalSupply() + _mintAmount <= maxSupply, "Sale would exceed max supply"); // 合約內代幣的量 + 鑄造的量 不可超過總發行數量
-        require(_mintAmount <= maxMintAmount, "You can only adopt 1 BigBenFun at a time"); // 鑄造的數量不可以大於每次最大鑄造數量
+        require(_mintAmount > 0); // 每次必須挖超過 0 個
+        require(_mintAmount <= maxMintAmount); // 挖的數量不可以大於每次最大挖掘數量
+        //require(supply + _mintAmount <= maxSupply);
+            // 挖的數量和當前發行量加起來，不可以超過最大總發行量
         require(cost * _mintAmount <= msg.value, "Ether value sent is not correct"); // Mint 的價格不可以少於我們訂定的價格
-      
-        for(uint256 i = 0; i < _mintAmount; i++) {
+
+        for (uint256 i=0; i<_mintAmount; i++) { // tokenID 從 0 開始
             uint256 mintIndex = _tokenIdCounter.current();
-            
             while(_exists(mintIndex)){
                 i++;
             }
-            
-            // 接下來如果 Mint NFT 的編號如果小於初始提供的數量就讓使用者 Mint
             if (mintIndex <= maxSupply) {
-                _safeMint(msg.sender, mintIndex);
+                _safeMint(msg.sender, mintIndex);  
                 _tokenIdCounter.increment();
-            }
+            } 
         }
     }
 
@@ -103,14 +101,13 @@ contract SimplePayAndNFT is ERC721Enumerable, Ownable{
         paused = !paused;
     }
 
-
-
+    // ------------------我是分割線-----------------
     enum State { Created, Locked, Inactive}
     State public state;
 
     // 1:50000、台幣/5萬 = eth
     function itemcost(uint productPrice) public payable{
-        price = productPrice;
+        price = productPrice * 1e9;  // 無論如何都是 wei
     }
 
 	// ECDSA橢圓曲線簽名演算法
@@ -153,8 +150,8 @@ contract SimplePayAndNFT is ERC721Enumerable, Ownable{
     event Aborted();
     event PurchaseConfirmed();
     event ItemReceived();
- 
-   //買家下單支付以太幣後觸發
+   
+    //買家下單支付以太幣後觸發
     function deposit(bytes memory _signature) public payable {
         require(msg.value == price, "Please pay according to the item price.");
         require(isMessageVaild(_signature), "Must need your signature.");
@@ -162,9 +159,6 @@ contract SimplePayAndNFT is ERC721Enumerable, Ownable{
         emit PurchaseConfirmed();
         buyer = payable(msg.sender);
         state = State.Created;
-        payable(seller).transfer(address(this).balance);
+        payable(seller).transfer(price);
     }
-
-    // 取消購物取回以太幣
-    // 只允許賣家訪問
 }
